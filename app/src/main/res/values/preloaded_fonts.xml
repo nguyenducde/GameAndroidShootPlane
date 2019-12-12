@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/allerta</item>
+        <item>@font/annie_use_your_telescope</item>
+        <item>@font/baloo</item>
+        <item>@font/dancing_script</item>
+        <item>@font/dancing_script_bold</item>
+        <item>@font/gafata</item>
+        <item>@font/joti_one</item>
+        <item>@font/nothing_you_could_do</item>
+        <item>@font/rock_salt</item>
+    </array>
+</resources>

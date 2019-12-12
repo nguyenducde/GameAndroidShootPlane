@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroud"
+
+
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="350dp"
+      android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+
+        android:layout_height="500dp">
+
+        <TextView
+            android:id="@+id/txtChoi"
+            android:layout_width="350dp"
+            android:gravity="center"
+            android:layout_height="50dp"
+            android:layout_marginTop="150dp"
+            android:textSize="25dp"
+            android:textColor="#fff"
+            android:text="Chơi Mới"/>
+
+        <TextView
+            android:id="@+id/txtXemDiem"
+            android:layout_width="350dp"
+            android:textSize="25dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/txtChoi"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Xem Điểm" />
+
+        <TextView
+            android:id="@+id/txtDangNhap"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:textSize="25dp"
+            android:layout_below="@id/txtXemDiem"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Đăng Nhập"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/txtDangKy"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/txtDangNhap"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Đăng Ký" />
+
+        <TextView
+            android:id="@+id/txtChoiOnlie"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_below="@id/txtDangKy"
+            android:textColor="#fff"
+            android:layout_marginTop="20dp"
+            android:text="Chơi Online" />
+    </RelativeLayout>
+
+</RelativeLayout>

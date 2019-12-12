@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "52700729737",
+    "firebase_url": "https://gameandroid-73a49.firebaseio.com",
+    "project_id": "gameandroid-73a49",
+    "storage_bucket": "gameandroid-73a49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52700729737:android:fccd5c28dbabb8c2af5158",
+        "android_client_info": {
+          "package_name": "com.example.adeso1.huyenthoai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52700729737-cbq2flbn3hv2airvu6r5t5c8kh8mp7t1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmYZ02eC-taDYPNlRtuToGT41Sp98thMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52700729737-cbq2flbn3hv2airvu6r5t5c8kh8mp7t1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
