@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import com.example.adeso1.huyenthoai.R;
 
 import java.util.ResourceBundle;
-
+//
 public class Background {
     int x=0,y=0;
     Bitmap background;
