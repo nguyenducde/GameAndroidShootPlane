@@ -12,6 +12,8 @@ import android.view.CollapsibleActionView;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -119,7 +121,7 @@ public  class  GameView extends SurfaceView implements Runnable{
 
                     Dialog dialog=new Dialog(getContext());
                     dialog.setContentView(R.layout.dialog);
-
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     dialog.show();
 
 
