@@ -34,7 +34,7 @@ public class login  extends AppCompatActivity {
         setContentView(R.layout.login);
         mAuth = FirebaseAuth.getInstance();
 
-        // this is a new
+        // this is a new resssss
 
         ednEmail = findViewById(R.id.edtEmailLog);
         ednPassWord = findViewById(R.id.edtPassLog);
