@@ -21,8 +21,9 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+
         <activity
-            android:name=".Player.MainActivity"
+            android:name=".Main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.example.adeso1.huyenthoai.Player;
+package com.example.adeso1.huyenthoai.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.adeso1.huyenthoai.Login.Register;
 import com.example.adeso1.huyenthoai.Login.login;
+import com.example.adeso1.huyenthoai.Player.GameActivity;
+import com.example.adeso1.huyenthoai.PlayerOnline.Client;
 import com.example.adeso1.huyenthoai.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,6 +58,8 @@ private boolean online=true;
             choionline.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, Client.class)
+                    );
 
                 }
             });

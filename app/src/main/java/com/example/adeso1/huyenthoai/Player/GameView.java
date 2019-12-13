@@ -8,23 +8,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
-import android.view.CollapsibleActionView;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.adeso1.huyenthoai.Login.Register;
+import com.example.adeso1.huyenthoai.Main.MainActivity;
 import com.example.adeso1.huyenthoai.Player.Object.Boss;
 import com.example.adeso1.huyenthoai.Player.Object.Fight;
 import com.example.adeso1.huyenthoai.Player.Object.Planes;
+import com.example.adeso1.huyenthoai.Player.Object.User;
 import com.example.adeso1.huyenthoai.Player.work.Bullet;
 import com.example.adeso1.huyenthoai.Player.work.BulletBossLevel1;
 import com.example.adeso1.huyenthoai.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +40,9 @@ public  class  GameView extends SurfaceView implements Runnable{
     ImageView imgHome;
         private  Thread thread;
         private int screenX,screenY,score=0;
-
+        private User users;
         private Paint paint;
-
+        private DatabaseReference mDatabase;
         public static float screenRatioX, screenRatioY;
         private  boolean isplaying;
         private  long time;
@@ -50,9 +53,12 @@ public  class  GameView extends SurfaceView implements Runnable{
         private List<Bullet> bullets;
         private  List<BulletBossLevel1> bulletBossLevel1s;
         private Boss boss;
+        FirebaseUser user;
+
         private  boolean flagPlane=false;
     private boolean flagScrore=false;
-        private  int flagBoss=0;
+        private  int flagBoss=7;
+
         private static Context context;
         //thanhhp
         public int HP=360;
@@ -60,7 +66,7 @@ public  class  GameView extends SurfaceView implements Runnable{
         //Game kết thúc
         private  boolean isgameover=false;
         private Background background1,background2;
-    final CountDownTimer  timer=new CountDownTimer(10000,1000) {
+    final CountDownTimer  timer=new CountDownTimer(30000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             time=   millisUntilFinished/1000;
@@ -69,7 +75,7 @@ public  class  GameView extends SurfaceView implements Runnable{
         @Override
         public void onFinish() {
             flagPlane=true;
-
+        flagBoss=0;
         }
     }.start();
 
@@ -125,6 +131,40 @@ public  class  GameView extends SurfaceView implements Runnable{
                     dialog.show();
 
 
+                    //Given information to database Firebase
+                    mDatabase = FirebaseDatabase.getInstance().getReference();
+                    user= FirebaseAuth.getInstance().getCurrentUser();
+                    //if username and email != null
+                    if (user != null) {
+                        // Name, email address, and profile photo Url
+                        String name = user.getDisplayName();
+                        String email = user.getEmail();
+                        users=new User(name,email,score);
+                        mDatabase.child("users").push().setValue(users);
+
+
+                    }
+                    if(users==null)
+                    {
+                        users=new User("Không xác định","Không xác định",score);
+                        mDatabase.child("users").push().setValue(users);
+                    }
+                    //if name equal null
+                    if(user.getDisplayName()==null&&user.getEmail()!=null)
+                    {
+                        users=new User("Không xác định",user.getEmail(),score);
+                        mDatabase.child("users").push().setValue(users);
+                    }
+                    //if email equal null
+                    if(user.getDisplayName()!=null&&user.getEmail()==null)
+                    {
+                        users=new User(user.getDisplayName(),"Không xác định",score);
+                        mDatabase.child("users").push().setValue(users);
+                    }
+
+
+                    //
+                    //
                     txtDiem=dialog.findViewById(R.id.tvDiem);
                     txtDiem.setText("Score: "+score);
                     dialog.findViewById(R.id.tvChoiLai).setOnClickListener(new View.OnClickListener() {
@@ -138,7 +178,7 @@ public  class  GameView extends SurfaceView implements Runnable{
                     dialog.findViewById(R.id.imgHome).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent myIntent = new Intent(getContext(),MainActivity.class);
+                            Intent myIntent = new Intent(getContext(), MainActivity.class);
                             getContext().startActivity(myIntent);
                         }
                     });
@@ -324,7 +364,16 @@ public  class  GameView extends SurfaceView implements Runnable{
             {
                 if (bullet.y>screenY)
                     trash .add(bullet);
-                bullet.y+=30;
+                bullet.y+=100;
+                bullet.x -=10;
+                if(Rect.intersects(bullet.getShape(),fight.getShape()))
+                {
+                    if(HP<=100)
+                    {
+                        isgameover=true;
+                    }
+                    HP-=10;
+                }
 
             }
             //Tự hủy đạn
@@ -497,8 +546,9 @@ public  class  GameView extends SurfaceView implements Runnable{
 
             }
         public  void drawBoss(Canvas canvas)
-        {
-        canvas.drawBitmap(boss.getPlanes(), boss.x, boss.y, paint);
+        {   if(flagBoss!=7) {
+            canvas.drawBitmap(boss.getPlanes(), boss.x, boss.y, paint);
+        }
 
         }
         public  void drawBloodBoss(Canvas canvas)
