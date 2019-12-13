@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import com.example.adeso1.huyenthoai.Player.GameView;
 import com.example.adeso1.huyenthoai.R;
 
 import static com.example.adeso1.huyenthoai.Player.GameView.screenRatioX;
@@ -16,7 +17,7 @@ public class Boss {
     float height;
     float width;
    Bitmap boss;
-   public Boss(Resources res)
+   public Boss(GameView gameView, int screenY, Resources res)
    {
        boss= BitmapFactory.decodeResource(res, R.drawable.boss);
        width=boss.getWidth();

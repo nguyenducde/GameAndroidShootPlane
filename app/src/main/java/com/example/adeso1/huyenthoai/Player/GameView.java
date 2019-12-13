@@ -1,5 +1,6 @@
 package com.example.adeso1.huyenthoai.Player;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -10,13 +11,18 @@ import android.os.CountDownTimer;
 import android.view.CollapsibleActionView;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
+import com.example.adeso1.huyenthoai.Login.Register;
 import com.example.adeso1.huyenthoai.Player.Object.Boss;
 import com.example.adeso1.huyenthoai.Player.Object.Fight;
 import com.example.adeso1.huyenthoai.Player.Object.Planes;
 import com.example.adeso1.huyenthoai.Player.work.Bullet;
 import com.example.adeso1.huyenthoai.Player.work.BulletBossLevel1;
+import com.example.adeso1.huyenthoai.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +31,8 @@ import java.util.Random;
 
 public  class  GameView extends SurfaceView implements Runnable{
 
-
+    TextView txtDiem,txtChoiLai;
+    ImageView imgHome;
         private  Thread thread;
         private int screenX,screenY,score=0;
 
@@ -87,7 +94,7 @@ public  class  GameView extends SurfaceView implements Runnable{
                planes[i]=plane;
             }
             //
-            boss=new Boss(getResources());
+            boss=new Boss(this,screenY,getResources());
             random=new Random();
 
         }
@@ -109,14 +116,38 @@ public  class  GameView extends SurfaceView implements Runnable{
             activity.runOnUiThread(new Runnable() {
                 public void run() {
 
-                    /*
-                    Dialog dialog=new Dialog(getContext());
-                    dialog.setContentView(R.layout.activity_main);
-                    dialog.show();
-                     */
 
+                    Dialog dialog=new Dialog(getContext());
+                    dialog.setContentView(R.layout.dialog);
+
+                    dialog.show();
+
+
+                    txtDiem=dialog.findViewById(R.id.tvDiem);
+                    txtDiem.setText("Score: "+score);
+                    dialog.findViewById(R.id.tvChoiLai).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent myIntent = new Intent(getContext(),GameActivity.class);
+                            getContext().startActivity(myIntent);
+                        }
+                    });
+
+                    dialog.findViewById(R.id.imgHome).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent myIntent = new Intent(getContext(),MainActivity.class);
+                            getContext().startActivity(myIntent);
+                        }
+                    });
+
+
+
+                    /*
                     Intent myIntent = new Intent(getContext(), MainActivity.class);
                     getContext().startActivity(myIntent);
+
+                     */
                 }
             });
         }
@@ -130,6 +161,7 @@ public  class  GameView extends SurfaceView implements Runnable{
             //Thiết lập boss
             setBoss();
             //Chỉnh đạn boss
+
            // setBulletBossLevel1s();
         }
         private  void draw(){
@@ -229,6 +261,7 @@ public  class  GameView extends SurfaceView implements Runnable{
             bullet.y= (float) (fight.y-screenY/20);
             bullets.add(bullet);
         }
+
         public void newBulletBossLV1()
         {
             BulletBossLevel1 bullet=new BulletBossLevel1(getResources());;
