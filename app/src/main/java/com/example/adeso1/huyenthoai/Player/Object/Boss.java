@@ -14,11 +14,13 @@ import static com.example.adeso1.huyenthoai.Player.GameView.screenRatioY;
 public class Boss {
     public float x;
     public float y;
+    private  GameView gameView;
     float height;
     float width;
    Bitmap boss;
    public Boss(GameView gameView, int screenY, Resources res)
    {
+       this.gameView=gameView;
        boss= BitmapFactory.decodeResource(res, R.drawable.boss);
        width=boss.getWidth();
        height=boss.getHeight();
@@ -29,6 +31,7 @@ public class Boss {
        boss=Bitmap.createScaledBitmap(boss,(int)width,(int)height,false);
    }
    public Bitmap getPlanes() {
+       gameView.newBulletBossLV1();
         return  boss;
     }
 

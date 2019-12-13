@@ -164,7 +164,7 @@ public  class  GameView extends SurfaceView implements Runnable{
             setBoss();
             //Chỉnh đạn boss
 
-           // setBulletBossLevel1s();
+            setBulletBossLevel1s();
         }
         private  void draw(){
 
@@ -194,7 +194,7 @@ public  class  GameView extends SurfaceView implements Runnable{
 
                         drawBoss(canvas);
                         //Vẽ đạn boss
-                       // drawBulletBossLV1(canvas);
+                        drawBulletBossLV1(canvas);
 //
                     }
 
@@ -267,8 +267,8 @@ public  class  GameView extends SurfaceView implements Runnable{
         public void newBulletBossLV1()
         {
             BulletBossLevel1 bullet=new BulletBossLevel1(getResources());;
-            bullet.x = (float) (boss.y);
-            bullet.y= (float) (boss.y);
+            bullet.x = (float) (boss.x+screenX/5);
+            bullet.y= (float) (boss.y+screenY/8);
             bulletBossLevel1s.add(bullet);
         }
         public  void setBackground()
