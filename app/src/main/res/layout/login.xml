@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.SendMail"
+
     android:gravity="center"
     android:background="@drawable/bgnight_blur">
 
@@ -20,7 +20,8 @@
             android:layout_width="369dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/annie_use_your_telescope"
-            android:text="Welcome back!"
+            android:gravity="center"
+            android:text="Login!"
             android:textColor="#FFF"
             android:textSize="63sp"
             android:textStyle="bold" />
@@ -64,6 +65,7 @@
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/gafata"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:paddingTop="16dp"
                 android:paddingBottom="10dp"
                 android:textColor="#FFF"

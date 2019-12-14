@@ -15,7 +15,7 @@ import com.example.adeso1.huyenthoai.PlayerOnline.Client;
 import com.example.adeso1.huyenthoai.R;
 
 public class MainActivity extends AppCompatActivity {
-TextView ChoiMoi,DangKy,DangNhap,choionline;
+TextView ChoiMoi,DangKy,DangNhap,choionline,XemDiem;
 private boolean online=true;
     private MediaPlayer mediaPlayer;
 
@@ -31,6 +31,7 @@ private boolean online=true;
         choionline=findViewById(R.id.txtChoiOnlie);
         DangKy=findViewById(R.id.txtDangKy);
         DangNhap=findViewById(R.id.txtDangNhap);
+        XemDiem=findViewById(R.id.txtXemDiem);
 
         findViewById(R.id.txtChoi).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +68,13 @@ private boolean online=true;
         else {
             online=false;
         }
+        XemDiem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MainScore.class)
+                );
+            }
+        });
 
 
 

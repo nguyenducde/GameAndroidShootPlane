@@ -66,7 +66,7 @@ public  class  GameView extends SurfaceView implements Runnable{
         //Game kết thúc
         private  boolean isgameover=false;
         private Background background1,background2;
-    final CountDownTimer  timer=new CountDownTimer(30000,1000) {
+    final CountDownTimer  timer=new CountDownTimer(15000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             time=   millisUntilFinished/1000;
@@ -135,31 +135,31 @@ public  class  GameView extends SurfaceView implements Runnable{
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     user= FirebaseAuth.getInstance().getCurrentUser();
                     //if username and email != null
-                    if (user != null) {
+                    if (!user.getDisplayName().isEmpty()&&!user.getEmail().isEmpty()) {
                         // Name, email address, and profile photo Url
                         String name = user.getDisplayName();
                         String email = user.getEmail();
                         users=new User(name,email,score);
-                        mDatabase.child("users").push().setValue(users);
+                        mDatabase.push().setValue(users);
 
 
                     }
-                    if(users==null)
+                    if(user.getDisplayName().isEmpty()&&user.getEmail().isEmpty())
                     {
                         users=new User("Không xác định","Không xác định",score);
-                        mDatabase.child("users").push().setValue(users);
+                        mDatabase.push().setValue(users);
                     }
                     //if name equal null
-                    if(user.getDisplayName()==null&&user.getEmail()!=null)
+                    if(user.getDisplayName().isEmpty()&&!user.getEmail().isEmpty())
                     {
                         users=new User("Không xác định",user.getEmail(),score);
-                        mDatabase.child("users").push().setValue(users);
+                        mDatabase.push().setValue(users);
                     }
                     //if email equal null
-                    if(user.getDisplayName()!=null&&user.getEmail()==null)
+                    if(!user.getDisplayName().isEmpty()&&user.getEmail().isEmpty())
                     {
                         users=new User(user.getDisplayName(),"Không xác định",score);
-                        mDatabase.child("users").push().setValue(users);
+                        mDatabase.push().setValue(users);
                     }
 
 

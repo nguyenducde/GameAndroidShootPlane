@@ -79,7 +79,7 @@ public class Register extends AppCompatActivity {
                     ednPass.setError("mat khau tren 8 ki tu, co so va chu");
                     ednPass.requestFocus();
                 } else if (repass.isEmpty()) {
-                    ednRePass.setError("vui long nhap laij password");
+                    ednRePass.setError("vui long nhap lai password");
                     ednRePass.requestFocus();
                 } else if (repass.equalsIgnoreCase(password)) {
                     ednRePass.setError("repass khong dung voi password");
@@ -103,14 +103,14 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(Register.this, "Vui lòng check email de hoan tat viecj tao tai khoan", LENGTH_LONG).show();
+                                Toast.makeText(Register.this, "Vui lòng check mail để hoàn tất việc tạo tài khoản", LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(Register.this, "tao tai khoan that bai!", LENGTH_LONG).show();
                             }
                         }
                     });
                 } else {
-                    ednEmail.setError("email da ton tai");
+                    ednEmail.setError("email đã tồn tại");
                     ednEmail.requestFocus();
                 }
             }

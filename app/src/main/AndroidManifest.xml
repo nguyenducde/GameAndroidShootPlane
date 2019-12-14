@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
+<activity android:name=".Main.MainScore"></activity>
         <activity android:name=".Player.GameActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />

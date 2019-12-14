@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.adeso1.huyenthoai.Main.MainActivity;
 import com.example.adeso1.huyenthoai.Player.GameActivity;
 import com.example.adeso1.huyenthoai.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -91,6 +92,11 @@ public class login  extends AppCompatActivity {
                     loginEmail(email, pass);
                 } else {
                     Toast.makeText(login.this, "Lỗi không xác định", LENGTH_LONG).show();
+                }
+                if(!email.isEmpty()&&!pass.isEmpty())
+                {
+                    startActivity(new Intent(login.this, GameActivity.class
+                    ));
                 }
             }
         });
