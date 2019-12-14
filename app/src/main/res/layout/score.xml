@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-
+    android:background="@drawable/bgnight_blur"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txDiem"
-        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
-        android:textSize="23dp"
-    android:gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Số điểm:" />
+        android:layout_height="43dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/rock_salt"
+        android:gravity="center"
+        android:text="Huyền Thoại"
+        android:textColor="#FFF"
+        android:textSize="23dp" />
+
+    <TextView
+        android:id="@+id/txDiem"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Điểm số người chơi trong game!"
+        android:textColor="#FFF"
+        android:textSize="23dp" />
 
     <ListView
         android:id="@+id/lvDiem"
-android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_marginTop="30dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
