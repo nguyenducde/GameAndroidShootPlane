@@ -53,6 +53,7 @@ public  class  GameView extends SurfaceView implements Runnable{
         private List<Bullet> bullets;
         private  List<BulletBossLevel1> bulletBossLevel1s;
         private Boss boss;
+        private boolean pause=false;
         FirebaseUser user;
 
         private  boolean flagPlane=false;
@@ -121,67 +122,69 @@ public  class  GameView extends SurfaceView implements Runnable{
                 sleep();
             }
             //Hiện cửa sổ khi thua
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
+            if(isgameover==true)
+            {
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
 
 
-                    Dialog dialog=new Dialog(getContext());
-                    dialog.setContentView(R.layout.dialog);
-                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    dialog.show();
+                        Dialog dialog=new Dialog(getContext());
+                        dialog.setContentView(R.layout.dialog);
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        dialog.show();
 
 
-                    //Given information to database Firebase
-                    mDatabase = FirebaseDatabase.getInstance().getReference();
-                    user= FirebaseAuth.getInstance().getCurrentUser();
-                    //if username and email != null
-                    if (!user.getDisplayName().isEmpty()&&!user.getEmail().isEmpty()) {
-                        // Name, email address, and profile photo Url
-                        String name = user.getDisplayName();
-                        String email = user.getEmail();
-                        users=new User(name,email,score);
-                        mDatabase.push().setValue(users);
+                        //Given information to database Firebase
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        user= FirebaseAuth.getInstance().getCurrentUser();
+                        //if username and email != null
+                        if (!user.getDisplayName().isEmpty()&&!user.getEmail().isEmpty()) {
+                            // Name, email address, and profile photo Url
+                            String name = user.getDisplayName();
+                            String email = user.getEmail();
+                            users=new User(name,email,score);
+                            mDatabase.push().setValue(users);
 
 
-                    }
-                    if(user.getDisplayName().isEmpty()&&user.getEmail().isEmpty())
-                    {
-                        users=new User("Không xác định","Không xác định",score);
-                        mDatabase.push().setValue(users);
-                    }
-                    //if name equal null
-                    if(user.getDisplayName().isEmpty()&&!user.getEmail().isEmpty())
-                    {
-                        users=new User("Không xác định",user.getEmail(),score);
-                        mDatabase.push().setValue(users);
-                    }
-                    //if email equal null
-                    if(!user.getDisplayName().isEmpty()&&user.getEmail().isEmpty())
-                    {
-                        users=new User(user.getDisplayName(),"Không xác định",score);
-                        mDatabase.push().setValue(users);
-                    }
-
-
-                    //
-                    //
-                    txtDiem=dialog.findViewById(R.id.tvDiem);
-                    txtDiem.setText("Score: "+score);
-                    dialog.findViewById(R.id.tvChoiLai).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent myIntent = new Intent(getContext(),GameActivity.class);
-                            getContext().startActivity(myIntent);
                         }
-                    });
-
-                    dialog.findViewById(R.id.imgHome).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent myIntent = new Intent(getContext(), MainActivity.class);
-                            getContext().startActivity(myIntent);
+                        if(user.getDisplayName().isEmpty()&&user.getEmail().isEmpty())
+                        {
+                            users=new User("Không xác định","Không xác định",score);
+                            mDatabase.push().setValue(users);
                         }
-                    });
+                        //if name equal null
+                        if(user.getDisplayName().isEmpty()&&!user.getEmail().isEmpty())
+                        {
+                            users=new User("Không xác định",user.getEmail(),score);
+                            mDatabase.push().setValue(users);
+                        }
+                        //if email equal null
+                        if(!user.getDisplayName().isEmpty()&&user.getEmail().isEmpty())
+                        {
+                            users=new User(user.getDisplayName(),"Không xác định",score);
+                            mDatabase.push().setValue(users);
+                        }
+
+
+                        //
+                        //
+                        txtDiem=dialog.findViewById(R.id.tvDiem);
+                        txtDiem.setText("Score: "+score);
+                        dialog.findViewById(R.id.tvChoiLai).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent myIntent = new Intent(getContext(),GameActivity.class);
+                                getContext().startActivity(myIntent);
+                            }
+                        });
+
+                        dialog.findViewById(R.id.imgHome).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent myIntent = new Intent(getContext(), MainActivity.class);
+                                getContext().startActivity(myIntent);
+                            }
+                        });
 
 
 
@@ -190,8 +193,10 @@ public  class  GameView extends SurfaceView implements Runnable{
                     getContext().startActivity(myIntent);
 
                      */
-                }
-            });
+                    }
+                });
+            }
+
         }
         private void update(){
             //Cho backgroud di chuyển từ trên xuống dưới
@@ -279,12 +284,10 @@ public  class  GameView extends SurfaceView implements Runnable{
             switch (event.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
-                    fight.x=dX;
-                    fight.y=dY;
+
                     break;
                 case MotionEvent.ACTION_UP:
-                    fight.x=dX;
-                    fight.y=dY;
+
                     break;
                 case MotionEvent.ACTION_MOVE:
                     fight.isGoing=true;
@@ -335,6 +338,10 @@ public  class  GameView extends SurfaceView implements Runnable{
             for (int i = 0; i < planes.length; i++) {
 
                 planes[i].y += planes[i].speed;
+                if (planes[i].width + planes[i].x > screenX) {
+                    planes[i].y = 0;
+                    planes[i].x = random.nextInt(screenX - planes[i].width);
+                }
 
                 if (planes[i].y + planes[i].height > screenY) {
                     int bound = (int) (30 * screenRatioX);
@@ -347,11 +354,21 @@ public  class  GameView extends SurfaceView implements Runnable{
                     planes[i].y = 0;
                     planes[i].x = random.nextInt(screenX - planes[i].width);
                 }
-                //Nếu máy bay dc tạo ra mà lớn hơn chiều ngang của màn hình
-                if (planes[i].width + planes[i].x > screenX) {
-                    planes[i].y = 0;
-                    planes[i].x = random.nextInt(screenX - planes[i].width);
+                /*
+                if(i>=3)
+                {
+                    i=0;
                 }
+              if(Rect.intersects(planes[i].getShape(),planes[i+1].getShape()))
+              {
+                  planes[i+1].y = 0;
+                  planes[i+1].x = random.nextInt(screenX - planes[i].width);
+              }
+              /*
+                 */
+
+                //Nếu máy bay dc tạo ra mà lớn hơn chiều ngang của màn hình
+
 
             }
         }

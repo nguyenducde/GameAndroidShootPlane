@@ -5,9 +5,6 @@ public class User {
     public String email;
     public  int score;
 
-    public User() {
-
-    }
 
     public User(String username, String email,int score) {
         this.username = username;
