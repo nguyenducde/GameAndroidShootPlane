@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 
 import com.example.adeso1.huyenthoai.Main.MainActivity;
+import com.example.adeso1.huyenthoai.Player.Object.BigBang;
 import com.example.adeso1.huyenthoai.Player.Object.Boss;
+import com.example.adeso1.huyenthoai.Player.Object.Boss1;
+import com.example.adeso1.huyenthoai.Player.Object.Boss2;
 import com.example.adeso1.huyenthoai.Player.Object.Fight;
 import com.example.adeso1.huyenthoai.Player.Object.Planes;
 import com.example.adeso1.huyenthoai.Player.Object.User;
@@ -53,17 +56,27 @@ public  class  GameView extends SurfaceView implements Runnable{
         private List<Bullet> bullets;
         private  List<BulletBossLevel1> bulletBossLevel1s;
         private Boss boss;
+        private Boss1 boss1;
+        private Boss2 boss2;
+
+        private BigBang bigBang;
+
         private boolean pause=false;
         FirebaseUser user;
 
         private  boolean flagPlane=false;
     private boolean flagScrore=false;
         private  int flagBoss=7;
+        private  int flagBoss2=1;
+        private  int flagBoss1=1;
+        private  int flagbulletboss=1;
 
         private static Context context;
         //thanhhp
         public int HP=360;
-        public  int HPBoss=450;
+        public  int HPBoss=500;
+        public  int HPBoss1=500;
+        public  int HPBoss2=500;
         //Game kết thúc
         private  boolean isgameover=false;
         private Background background1,background2;
@@ -77,6 +90,7 @@ public  class  GameView extends SurfaceView implements Runnable{
         public void onFinish() {
             flagPlane=true;
         flagBoss=0;
+//        timer.start();
         }
     }.start();
 
@@ -92,6 +106,7 @@ public  class  GameView extends SurfaceView implements Runnable{
             background1=new Background(screenX,screenY,getResources());
             background2=new Background(screenX,screenY,getResources());
             background2.y=-screenY;
+            bigBang=new BigBang((getResources()));
             fight=new Fight(this,screenY,getResources());
             bullets =new ArrayList<>();
             bulletBossLevel1s=new ArrayList<>();
@@ -104,6 +119,8 @@ public  class  GameView extends SurfaceView implements Runnable{
             }
             //
             boss=new Boss(this,screenY,getResources());
+            boss1=new Boss1(this,screenY,getResources());
+            boss2=new Boss2(this,screenY,getResources());
             random=new Random();
 
         }
@@ -207,9 +224,12 @@ public  class  GameView extends SurfaceView implements Runnable{
             setPlane();
             //Thiết lập boss
             setBoss();
+            setBoss2();
+            setBoss1();
             //Chỉnh đạn boss
 
             setBulletBossLevel1s();
+
         }
         private  void draw(){
 
@@ -240,6 +260,9 @@ public  class  GameView extends SurfaceView implements Runnable{
                         drawBoss(canvas);
                         //Vẽ đạn boss
                         drawBulletBossLV1(canvas);
+                        drawBloodBoss(canvas);
+                        drawBoss2(canvas);
+                        drawBoss1(canvas);
 //
                     }
 
@@ -381,16 +404,47 @@ public  class  GameView extends SurfaceView implements Runnable{
             {
                 if (bullet.y>screenY)
                     trash .add(bullet);
-                bullet.y+=100;
-                bullet.x -=10;
-                if(Rect.intersects(bullet.getShape(),fight.getShape()))
+                if(flagbulletboss!=0)
                 {
-                    if(HP<=100)
-                    {
-                        isgameover=true;
-                    }
-                    HP-=10;
+                    bullet.y+=100;
+                    flagbulletboss=2;
                 }
+                if (flagbulletboss==2&&bullet.y>=screenY/2&& bullet.x>=screenX/3)
+                {
+                    bullet.x+=50;
+                    bullet.y-=5000;
+                    flagbulletboss=3;
+                }
+                if (flagbulletboss==3&&bullet.y<screenY/4)
+                {
+                    bullet.x-=20;
+                }
+                if (flagbulletboss==4)
+                {
+                    bullet.y-=100;
+                    bullet.x+=20;
+
+
+                }
+//                if (flagbulletboss==3&&bullet.y>=screenY/3)
+//                {
+//                    bullet.y-=100;
+//                    bullet.x+=30;
+//                }
+
+//                bullet.x -=10;
+
+
+
+
+//                if(Rect.intersects(bullet.getShape(),fight.getShape()))
+//                {
+//                    if(HP<=100)
+//                    {
+//                        isgameover=true;
+//                    }
+//                    HP-=10;
+//                }
 
             }
             //Tự hủy đạn
@@ -409,6 +463,17 @@ public  class  GameView extends SurfaceView implements Runnable{
                     trash .add(bullet);
                 bullet.y-=300;
                 //Xử lý va chạm với máy bay địch
+                if (Rect.intersects(bullet.getShape(),boss.getShape()))
+                {
+//                    HPBoss-=10;
+//                    if (HPBoss<=0)
+//                    {
+//                        boss.x=50000;
+//
+//                    }
+
+
+                }
                 for (Planes pla:planes)
                 {
                     //Nếu tọa độ máy bay địch với tọa độ đạn giống nhau
@@ -496,6 +561,54 @@ public  class  GameView extends SurfaceView implements Runnable{
                 }
             }
         }
+        public  void setBoss1()
+        {
+            if (flagBoss1==1)
+            {
+                boss1.x=0;
+                boss1.y=screenY/4;
+                flagBoss1=2;
+            }
+
+        }
+        public void setBoss2()
+        {
+
+            if (flagBoss2==1)
+            {
+                boss2.x=0;
+                boss2.y=0;
+                flagBoss2=2;
+            }
+            if (flagBoss2==2)
+            {
+                boss2.x+=5;
+                flagBoss2=2;
+            }
+            if (boss2.x>=screenX/2)
+            {
+                boss2.x=screenX/2;
+                boss2.y+=5;
+                flagBoss2=3;
+            }
+            if (boss2.y>=screenY/2)
+            {
+                boss2.y=screenY/2;
+                boss2.x-=5;
+            }
+            if(boss2.x==0)
+            {
+                boss2.x=0;
+                boss2.y-=5;
+                if (boss2.y<=0)
+                {
+                    flagBoss2=1;
+
+                }
+
+            }
+
+        }
         public  void drawBackGroud(Canvas canvas )
         {
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
@@ -525,10 +638,26 @@ public  class  GameView extends SurfaceView implements Runnable{
         public void drawBulletBossLV1(Canvas canvas)
         {
 
-            for(BulletBossLevel1 bullet:bulletBossLevel1s)
-            {
-                canvas.drawBitmap(bullet.bullet,bullet.x,bullet.y,paint);
-            }
+//            for(BulletBossLevel1 bullet:bulletBossLevel1s)
+//            {
+//                canvas.drawBitmap(bullet.bullet,screenX/3,screenY/3,paint);
+////                if (time==5)
+////                {
+////
+////                }
+//
+////                try {
+////                    canvas.drawBitmap(bullet.bullet,bullet.x,bullet.y,paint);
+////                    Thread.sleep(50);
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
+//                canvas.drawBitmap(bullet.bullet,bullet.x,bullet.y,paint);
+//
+//
+//
+//
+//            }
         }
         public void drawScrore(Canvas canvas)
         {if(flagScrore==false)
@@ -563,13 +692,44 @@ public  class  GameView extends SurfaceView implements Runnable{
 
             }
         public  void drawBoss(Canvas canvas)
-        {   if(flagBoss!=7) {
-            canvas.drawBitmap(boss.getPlanes(), boss.x, boss.y, paint);
-        }
+        {
 
+//            if (flagBoss != 7) {
+//                canvas.drawBitmap(boss.getPlanes(), boss.x, boss.y, paint);
+//            }
+
+//             canvas.drawBitmap(bigBang.getBigBang(),boss.x,boss.y,paint);
+
+        }
+        public void drawBoss1(Canvas canvas)
+        {
+            canvas.drawBitmap(boss1.getPlanes(),boss1.x,boss1.y,paint);
+        }
+        public  void drawBoss2(Canvas canvas)
+        {
+//            if (HPBoss<=0)
+//            {
+//                canvas.drawBitmap(boss2.getPlanes(),boss2.x,boss2.y,paint);
+//            }
         }
         public  void drawBloodBoss(Canvas canvas)
         {
+//                        Paint paintLineBlood = new Paint();
+//                        paintLineBlood.setColor(Color.RED);
+//                        paintLineBlood.setStrokeWidth(25);
+//                        paintLineBlood.setTextSize(35);
+//
+//                        canvas.drawLine(boss.x + 50, boss.y + 90, boss.x + HPBoss, boss.y + 90, paintLineBlood);
+//                        //nãy tọa độ bắt đầu của y nhỏ hơn cái kết thúc y nên nó mới bị lich phải để 2 cái đó bằng nhau
+//                        //mày nhìn thấy cái startX hk cái đó tọa đọ bất đầu
+//                        //oke
+//                        //draw frames
+//                        Paint paintBlood = new Paint();
+//                        paintBlood.setStyle(Paint.Style.STROKE);//rong
+//                        paintBlood.setColor(Color.RED);
+//
+//                        canvas.drawRect(boss.x + 50, boss.y + 75, boss.x + 500, boss.y + 100, paintBlood);
+//////                    canvas.drawColor(Color.BLACK);
 
         }
 
